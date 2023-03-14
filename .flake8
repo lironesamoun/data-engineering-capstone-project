@@ -1,0 +1,8 @@
+[flake8]
+exclude = venv, dump, backup, .gitignore, .idea, docs, scripts,__init__.py,.git,.config
+ignore = E501, W503, E226
+max-line-length = 100
+
+# E501: Line too long
+# W503: Line break occurred before binary operator
+# E226: Missing white space around arithmetic operator

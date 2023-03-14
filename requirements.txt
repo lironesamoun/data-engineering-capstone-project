@@ -1,0 +1,4 @@
+prefect
+dbt-core
+dbt-bigquery
+SQLAlchemy
