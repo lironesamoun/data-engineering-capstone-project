@@ -2,30 +2,29 @@ locals {
   data_lake_bucket = "global-terrorism-data"
 }
 
-variable "gcp-creds" {
+variable "GCP_CREDS" {
   description = "Credentials for GCP"
-  default     = "europe-west3"
   type        = string
 }
 
-variable "project" {
-  description = "de-capstone-project-23"
+variable "GCP_PROJECT_ID" {
+  description = "Project id"
   default     = "de-capstone-project-23"
-}
-
-variable "region" {
-  description = "Region for GCP resources. Choose as per your location: https://cloud.google.com/about/locations"
-  default     = "europe-west3"
   type        = string
 }
 
-variable "storage_class" {
+variable "GCP_REGION" {
+  description = "Region for GCP resources. Choose as per your location: https://cloud.google.com/about/locations"
+  type        = string
+  default     = "europe-west3"
+}
+
+variable "GCP_STORAGE_CLASS" {
   description = "Storage class type for your bucket. Check official docs for more info."
   default     = "STANDARD"
 }
 
-variable "BQ_DATASET" {
+variable "GCP_BQ_DATASET" {
   description = "BigQuery Dataset that raw data (from GCS) will be written to"
   type        = string
-  default     = "global_terrorism_data"
 }
