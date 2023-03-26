@@ -1,0 +1,46 @@
+###
+### A complete description of a Prefect Deployment for flow 'Global Terrorism Dataset to GSC'
+###
+name: Local to GCS
+description: Flow that take a CSV file and upload it to Google Cloud Storage
+version: 7312feab2a9934caedefd48680c96627
+# The work queue that will handle this deployment's runs
+work_queue_name: default-queue
+work_pool_name: default-agent-pool
+tags: []
+parameters:
+  csv_file_path: data/globalterrorismdb.csv
+schedule: null
+is_schedule_active: null
+infra_overrides: {}
+infrastructure:
+  type: process
+  env: {}
+  labels: {}
+  name: null
+  command: null
+  stream_output: true
+  working_dir: null
+  block_type_slug: process
+  _block_type_slug: process
+
+###
+### DO NOT EDIT BELOW THIS LINE
+###
+flow_name: Global Terrorism Dataset to GSC
+manifest_path: null
+storage: null
+path: /Users/lirone/Documents/dev/other_projects/data-engineering-capstone-project
+entrypoint: src/flows/flow_main_pipeline.py:ingest_csv_to_gcs
+parameter_openapi_schema:
+  title: Parameters
+  type: object
+  properties:
+    csv_file_path:
+      title: csv_file_path
+      position: 0
+      type: string
+  required:
+  - csv_file_path
+  definitions: null
+timestamp: '2023-03-26T16:42:30.519878+00:00'
