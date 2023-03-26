@@ -1,6 +1,8 @@
-prefect==2.8.6
+prefect==2.8.7
 dbt-core==1.4.5
 dbt-bigquery==1.4.3
 pyarrow==11.0.0
 fastparquet==2023.2.0
 python_dotenv==1.0.0
+sqlalchemy==1.4.47
+prefect-gcp==0.3.0

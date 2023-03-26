@@ -31,8 +31,16 @@ clean: style
 
 
 .ONESHELL:
-terraform:
+terraform-init:
 	terraform fmt
 	terraform init
 	terraform validate
+
+.ONESHELL:
+prefect-init:
+	 prefect config set PREFECT_API_URL=http://127.0.0.1:4200/api
+
+.ONESHELL:
+prefect-start:
+	prefect server start
 
