@@ -6,3 +6,4 @@ fastparquet==2023.2.0
 python_dotenv==1.0.0
 sqlalchemy==1.4.47
 prefect-gcp==0.3.0
+pandas-gbq==0.19.1
