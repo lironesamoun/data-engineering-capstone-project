@@ -1,0 +1,8 @@
+version: 2
+
+sources:
+  - name: production
+    database: de-capstone-project-23
+    schema: globalterrorism_raw
+    tables:
+      - name: data
