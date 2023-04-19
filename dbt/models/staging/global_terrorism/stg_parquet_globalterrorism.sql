@@ -1,5 +1,6 @@
 {{ config(materialized="table") }}
 
+
 select
     eventid as event_id,
     case when iday != 0 then cast(concat(iyear, '-', imonth, '-', iday) as date) else null end as event_date,

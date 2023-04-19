@@ -33,6 +33,13 @@ clean-targets:         # directories to be removed by `dbt clean`
 # using the `{{ config(...) }}` macro.
 models:
   global_terrorism:
-    # Applies to all files under models/example/
-    example:
-      materialized: view
+    # Applies to all files under models/staging/
+    #the entire staging directory to be materialized as views
+    staging:
+      +materialized: view
+
+seeds:
+  countries_code:
+    countries_code_seed:
+      +column_types:
+        id: numeric
