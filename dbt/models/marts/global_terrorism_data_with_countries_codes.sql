@@ -10,9 +10,7 @@ global_terrorism_data as (
     from {{ ref('stg_parquet_globalterrorism') }}
 )
 
-select * ,
-upper(countries_codes.alpha2) as iso_code_alpha2,
-upper(countries_codes.alpha3) as iso_code_alpha3
+select * 
 from global_terrorism_data
 inner join countries_codes
 on global_terrorism_data.country = countries_codes.name

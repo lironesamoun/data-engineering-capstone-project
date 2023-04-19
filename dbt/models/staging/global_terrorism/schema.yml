@@ -6,3 +6,10 @@ sources:
     schema: globalterrorism_raw
     tables:
       - name: data
+        description: |
+          ## Overview
+          The table contains global terrorism data
+        columns:
+          - name: eventid
+            tests:
+              - not_null
