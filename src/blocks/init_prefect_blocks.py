@@ -13,10 +13,10 @@ from conf.config import GCP_GCS_BUCKET
 # IMPORTANT - do not store credentials in a publicly available repository!
 
 bucket_name_GCS = GCP_GCS_BUCKET  # (1) insert your GCS bucket name
-baseline_block_name = "capstone-project-gcs"
-block_name_credentials = f"{baseline_block_name}-credentials"
-block_name_bucket = f"{baseline_block_name}-bucket"
-block_name_github = f"{baseline_block_name}-github"
+BASELINE_BLOCK_NAME = "capstone-project-gcs"
+BLOCK_NAME_CREDENTIALS = f"{BASELINE_BLOCK_NAME}-credentials"
+BLOCK_NAME_BUCKET = f"{BASELINE_BLOCK_NAME}-bucket"
+BLOCK_NAME_GITHUB = f"{BASELINE_BLOCK_NAME}-github"
 
 
 def create_credentials_block():
@@ -27,16 +27,16 @@ def create_credentials_block():
         service_account_info=json.loads(prefect_service_account)  # (2) enter your credentials info here
     )
 
-    credentials_block.save(block_name_credentials, overwrite=True)
+    credentials_block.save(BLOCK_NAME_CREDENTIALS, overwrite=True)
 
 
 def create_gcs_bucket_block():
     bucket_block = GcsBucket(
-        gcp_credentials=GcpCredentials.load(block_name_credentials),
+        gcp_credentials=GcpCredentials.load(BLOCK_NAME_CREDENTIALS),
         bucket=f"{bucket_name_GCS}",
     )
 
-    bucket_block.save(block_name_bucket, overwrite=True)
+    bucket_block.save(BLOCK_NAME_BUCKET, overwrite=True)
 
 
 def create_github_block():
@@ -44,7 +44,7 @@ def create_github_block():
         repository=os.getenv('GITHUB_REPOSITORY_URL'),
         access_token=os.getenv('GITHUB_REPO_ACCESS_TOKEN')
     )
-    github_block.save(block_name_github, overwrite=True)
+    github_block.save(BLOCK_NAME_GITHUB, overwrite=True)
 
 
 if __name__ == '__main__':
