@@ -1,5 +1,5 @@
 locals {
-  data_lake_bucket = "global-terrorism-data"
+  data_lake_bucket = "global-terrorism-data-bucket"
 }
 
 variable "GCP_CREDS" {
