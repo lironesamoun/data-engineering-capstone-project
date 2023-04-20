@@ -11,13 +11,19 @@ load_dotenv()
 
 os.environ.setdefault("GOOGLE_APPLICATION_CREDENTIALS", os.environ.get("TF_VAR_GCP_CREDS"))
 GCLOUD_PROJECT = "de-capstone-project-23"
-GCP_GCS_BUCKET = "global-terrorism-data"
+GCP_GCS_BUCKET = "global-terrorism-data-bucket"
 
 # Directories
 BASE_DIR = Path(__file__).parent.parent.absolute()
 CONFIG_DIR = Path(BASE_DIR, "conf")
 DATA_DIR = Path(BASE_DIR, "data")
 LOGS_DIR = Path(BASE_DIR, "logs")
+
+DATASET_EXCEL_LINKS = [
+    "https://github.com/lironesamoun/data-engineering-capstone-project/releases/download/assets/globalterrorismdb_0522dist.xlsx",
+    "https://github.com/lironesamoun/data-engineering-capstone-project/releases/download/assets/globalterrorismdb_2021Jan-June_1222dist.xlsx"
+]
+DATASET_CSV_LINKS = "https://github.com/lironesamoun/data-engineering-capstone-project/releases/download/assets/globalterrorismdb.csv"
 
 # Create dirs
 DATA_DIR.mkdir(parents=True, exist_ok=True)

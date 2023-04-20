@@ -40,4 +40,6 @@ Create a new service account
 Create and download the json key file
 
 
-dbt run --select global_terrorism_lite --vars '{"is_test_run": "true"}'
+dbt run --select global_terrorism_lite --vars '{"is_test_run": true}'
+dbt run --select global_terrorism_lite --vars '{"is_test_run": false}'
+dbt seed
