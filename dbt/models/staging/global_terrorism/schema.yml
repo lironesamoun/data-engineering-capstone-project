@@ -3,9 +3,9 @@ version: 2
 sources:
   - name: staging
     database: de-capstone-project-23
-    schema: globalterrorism_raw
+    schema: globalterrorism_data
     tables:
-      - name: data
+      - name: full_raw_dataset
         description: |
           ## Overview
           The table contains global terrorism data
