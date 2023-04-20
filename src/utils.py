@@ -14,10 +14,19 @@ def load_json(filename: str):
 def write_local_to_parquet(df: pd.DataFrame, filename: str) -> Path:
     """Write DataFrame out locally as parquet file"""
     path = Path(filename)
-    print(f'\n4. Save dataset to parquet format {path}')
+    print(f'\n Save dataset to parquet format {path}')
     df.to_parquet(path, compression="gzip")
     print(f"File saved to {path}")
     return path
+
+def get_excel_files_path(data_folder: Path) -> list:
+    return list(data_folder.glob("**/*.xlsx"))
+
+def read_parquet(path: Path) -> pd.DataFrame:
+    """Data cleaning example"""
+    df = pd.read_parquet(path)
+    return df
+
 
 
 def dump_columns_type_from_df(df: pd.DataFrame, filename: str = 'types.json'):
