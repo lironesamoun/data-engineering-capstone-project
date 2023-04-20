@@ -6,7 +6,7 @@ import pandas as pd
 from prefect import flow, task
 from prefect_gcp import GcpCredentials, GcsBucket
 
-from conf.config import CONFIG_DIR, DATA_DIR, DATASET_EXCEL_LINKS, GCP_BIGQUERY_DESTINATION_TABLE, GCLOUD_PROJECT
+from conf.config import CONFIG_DIR, DATA_DIR, DATASET_EXCEL_LINKS, GCP_BIGQUERY_DESTINATION_TABLE, GCLOUD_PROJECT, GCP_LOCATION
 from src.blocks.init_prefect_blocks import BLOCK_NAME_BUCKET
 from src.utils import dump_columns_type_from_df, load_json, write_local_to_parquet, get_excel_files_path
 
@@ -87,6 +87,7 @@ def write_data_google_bq(df: pd.DataFrame) -> None:
         credentials=gcp_credentials_block.get_credentials_from_service_account(),
         chunksize=500_000,
         if_exists="append",
+        location=GCP_LOCATION
     )
     print("Successfully uploaded data to BigQuery.")
 
