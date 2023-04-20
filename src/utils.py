@@ -11,12 +11,20 @@ def load_json(filename: str):
         exit(-1)
 
 
-def write_local(df: pd.DataFrame, filename: str) -> Path:
+def write_local_to_parquet(df: pd.DataFrame, filename: str) -> Path:
     """Write DataFrame out locally as parquet file"""
     path = Path(filename)
+    print(f'\n4. Save dataset to parquet format {path}')
     df.to_parquet(path, compression="gzip")
     print(f"File saved to {path}")
     return path
 
 
+def dump_columns_type_from_df(df: pd.DataFrame, filename: str = 'types.json'):
+    res = df.dtypes.to_frame('dtypes').reset_index()
+    print("dtypes ", res)
+    d = res.set_index('index')['dtypes'].astype(str).to_dict()
+
+    with open(filename, 'w') as f:
+        json.dump(d, f)
 
