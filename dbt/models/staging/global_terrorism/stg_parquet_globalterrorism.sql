@@ -27,7 +27,7 @@ with source_data as (
         cast(nwound as integer) as nwound,
         cast(ishostkid as integer) as ishostkid,
         cast(nhostkid as integer) as nhostkid
-    from {{ source("staging", "data") }}
+    from {{ source("staging", "full_raw_dataset") }}
 )
 
 select
