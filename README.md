@@ -1,4 +1,5 @@
 # Data Engineering Captsone Project - Exploring Global Terrorism Dataset
+![START_GTD-Heatmap_2020](https://user-images.githubusercontent.com/8614763/233846836-a3010a1b-bf1b-438d-9902-5436e5e30a54.jpg)
 
 ## Preface
 
@@ -32,6 +33,7 @@ period and now includes more than 200,000 cases.
 - Includes information on more than 88,000 bombings, 19,000 assassinations, and 11,000 kidnappings since 1970
 - Includes information on at least 45 variables for each case, with more recent incidents including information on more than 120 variables
 - More than 4,000,000 news articles and 25,000 news sources were reviewed to collect incident data from 1998 to 2017 alone
+
 
 ### Dataset Structure
 
