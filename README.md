@@ -1,4 +1,5 @@
 # data-engineering-capstone-project
+![START_GTD-Heatmap_2020](https://user-images.githubusercontent.com/8614763/233846836-a3010a1b-bf1b-438d-9902-5436e5e30a54.jpg)
 
 Cloud: GCP
 Infrastructure as code (IaC): Terraform
