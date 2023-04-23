@@ -5,16 +5,13 @@
 This repository contains the course project for the Data Engineering Zoomcamp (Cohort 2023) organized by the by
 DataTalks.Club community. The project covers main data engineering skills taught in the course:
 
-- Cloud: `Google Cloud`
-- Infrastructure: `Terraform`
-- Orchestration: `Prefect`
-- Data lake: `Google Cloud Storage`
-- Data transformation: `DBT`
-- Data warehouse: `BigQuery`
-- Data visualization: `Google Looker Studio`
+- **Workflow Orchestration**: Data Lake, Prefect tool, ETL with GCP & Prefect
+- **Data Warehouse**: BigQuery
+- **Analytics engineering**: dbt (data build tool)
+- **Data Analysis and visualisation**: Looker Studio
 
 <b>TL;DR</b>: This project is analyzing the Global terrorism Dataset. Follow the steps mentioned
-under `How to make it work?` to set it up.
+under `How to reproduce this project?` to set it up.
 
 ## Dataset description
 
@@ -23,18 +20,13 @@ under `How to make it work?` to set it up.
 The data has been downloaded from the [Global Terrorism Database (GTD)](https://www.start.umd.edu/gtd/)
 
 The Global Terrorism Database™ (GTD) is an open-source database including information on terrorist events around the
-world from 1970 through 2021 (with annual updates planned for the future). Unlike many other event databases, the GTD
+world **from 1970 through 2021** (with annual updates planned for the future). Unlike many other event databases, the GTD
 includes systematic data on domestic as well as international terrorist incidents that have occurred during this time
-period and now includes more than 200,000 cases
-
-Statistical information contained in the Global Terrorism Database is based on reports from a variety of open media
-sources. Information is not added to the GTD unless and until we have determined the sources are credible. Users should
-not infer any additional actions or results beyond what is presented in a GTD entry and specifically, users should not
-infer an individual associated with a particular incident was tried and convicted of terrorism or any other criminal
-offense. If new documentation about an event becomes available, an entry may be modified, as necessary and appropriate.
+period and now includes more than 200,000 cases.
 
 **Characteristics of the GTD**
 
+- 1970 to 2021 data
 - Contains information on over 200,000 terrorist attacks
 - Currently the most comprehensive unclassified database on terrorist attacks in the world
 - Includes information on more than 88,000 bombings, 19,000 assassinations, and 11,000 kidnappings since 1970
@@ -43,7 +35,30 @@ offense. If new documentation about an event becomes available, an entry may be 
 
 ### Dataset Structure
 
-##
+The dataset has about 120 columns, but for the present project I decided to select only the relevant columns for my analysis (27 in total). The following columns will be used:
+<div align="center">
+
+| #  | Attribute             |                     Description                                      |
+|:--:|:---------------------:|----------------------------------------------------------------------|
+|  1 | **event_id**                | This is a unique identifier of the terrorism attack record.                  |
+|  2 | **event_date**          | Reconstruction of the date from attributes: year, month, day.        |
+|  3 | **country**        | the country or location where the incident occurred.             |
+|  4 | **region**          | the region in which the incident occurred.                       |
+|  5 | **provstate**       |  the name (at the time of event) of the 1st order subnational administrative region in which the event occurs.	            |
+|  6 | **city**            | the name of the city, village, or town in which the incident occurred.	                            |
+|  7 | **summary**              | A brief narrative summary of the incident, noting the “when, where, who, what, how, and why.”.	                                    |
+|  8 | **reason1**             | The violent act must be aimed at attaining a political, economic, religious, or social goal.	                                  |
+|  9 | **reason2**           | To satisfy this criterion there must be evidence of an intention to coerce, intimidate, or convey some other message to a larger audience (or audiences) than the immediate victims.                                  |
+| 10 | **reason3** | The action is outside the context of legitimate warfare activities, insofar as it targets non-combatants 	  |
+| 11 | **doubt_terrorism_proper**    | In certain cases there may be some uncertainty whether an incident meets all of the criteria for inclusion.	|
+| 12 | **attack_type**    | the general method of attack and often reflects the broad class of tactics used.	|
+| 13 | **target_type**    | captures the general type of target/victim.	|
+| 14 | **weapon_type**    | the general type of weapon used in the incident.	|
+| 15 | **perpetrator_group_name**    | the name of the group that carried out the attack.	|
+| 16 | **nkill**    | the number of total confirmed fatalities for the incident.	|
+| 17 | **nwound**    | the number of confirmed non-fatal injuries to both perpetrators and victims.	|
+
+</div>
 
 ## Architecture
 
@@ -59,7 +74,12 @@ offense. If new documentation about an event becomes available, an entry may be 
 - Data warehouse: `BigQuery`
 - Data visualization: `Google Looker Studio`
 
-## What questions am I trying to answer?
+## Data visualization: Dashboards
+
+<img width="686" alt="Exemple Dashboard" src="https://user-images.githubusercontent.com/8614763/233846604-575afffe-083a-41d9-aa77-4bbac33cc0c5.png">
+
+
+### What questions am I trying to answer?
 
 - Which countries have had the most attacks?
 - Which cities have had the most attacks?
@@ -71,11 +91,7 @@ offense. If new documentation about an event becomes available, an entry may be 
 - The number of deaths per country
 
 
-### Repository organization
-
-## Data visualization: Dashboards
-
-[Click here](https://lookerstudio.google.com/reporting/5436069c-3071-4119-88b0-dc0a27c547ff) to see the Looker
+[Click here](https://lookerstudio.google.com/reporting/5436069c-3071-4119-88b0-dc0a27c547ff) to see the
 dashboard.
 
 ## How to reproduce this project?
@@ -98,7 +114,7 @@ pip3 install -r requirements.txt
 2. Create a new GCP project with the name **de-capstone-project-23** (Note: Save the assigned Project ID. Projects have a unique ID and for that reason another ID will be assigned)
 3. Create a Service Account:
     - Go to **IAM & Admin > Service accounts > Create service account**
-    - Provide a service account name and grant the roles: **Viewer** + **BigQuery Admin** + **Storage Admin** + **Storage Object Admin**
+    - Provide a service account name and grant the roles: **Viewer** + **BigQuery Admin** + **Storage Admin** + **Storage Object Admin** + **Compute Storage Admin**
     - Download the Service Account json file
     - Download [SDK](https://cloud.google.com/sdk/docs/install-sdk) for local setup
     - Set environment variable to point to your downloaded GCP keys:
@@ -164,6 +180,12 @@ python3 src/flows/parameterized_flow_http_pipeline.py
 ```bash
 dbt run
 ```
+You should see the following lineage in DBT:
+<img width="1071" alt="DBT Lineage" src="https://user-images.githubusercontent.com/8614763/233846665-ea2e175b-59d5-4f55-98c3-7904bf2a0e60.png">
+
+
+After running all those steps, you should see in Google Big query the following table created (not production since it is run by dbt in production mode)
+<img width="657" alt="Table created in Google Big Query" src="https://user-images.githubusercontent.com/8614763/233846616-1133fdee-dab7-4b0f-bb75-d259de2fee68.png">
 
 ## Potential next steps
 
@@ -172,40 +194,6 @@ dbt run
 - Containerize the project
 - Perform deeper data analysis
 - Add pipeline for Machine Learning
-
-Problem description
-[Problem is well described and it's clear what the problem the project solves]
-
-Cloud
-[The project is developed in the cloud and IaC tools are used]
-
-Data ingestion: Batch / Workflow orchestration
-[End-to-end pipeline: multiple steps in the DAG, uploading data to data lake]
-
-Data warehouse
-[Tables are partitioned and clustered in a way that makes sense for the upstream queries (with explanation)]
-
-Transformations (dbt, spark, etc)
-[Tranformations are defined with dbt, Spark or similar technologies]
-
-Dashboard
-[A dashboard with 2 tiles]
-
-Reproducibility
-[Instructions are clear, it's easy to run the code, and the code works]
-
-to do
-services account IAM
-Create a new service account
-BigQuery Admin
-Storage Object Admin
-Compute Storage Admin
-
-Create and download the json key file
-
-dbt run --select global_terrorism_lite --vars '{"is_test_run": true}'
-dbt run --select global_terrorism_lite --vars '{"is_test_run": false}'
-dbt seed
 
 prefect agent start -p 'default-agent-pool'
 prefect deployment build -n "Online Parameterized ETL" -p default-agent-pool -q main-queue
