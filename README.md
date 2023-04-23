@@ -27,6 +27,7 @@ Dashboard
 
 Reproducibility
 [Instructions are clear, it's easy to run the code, and the code works]
+![architecture-captstone-project](https://user-images.githubusercontent.com/8614763/233844475-c1cd6fc8-76f7-4c45-851b-fab24629039d.jpeg)
 
 
 
