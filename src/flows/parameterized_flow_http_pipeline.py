@@ -38,6 +38,7 @@ def end_to_end_pipeline_from_http_to_bq(filename_arr_path: list = DATASET_EXCEL_
         print(traceback.format_exc())
         exit(-1)
 
+
 if __name__ == '__main__':
     name_output_data = "global_terrorism_db"
     filename_arr_path = DATASET_EXCEL_LINKS

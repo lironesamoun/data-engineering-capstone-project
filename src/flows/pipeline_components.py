@@ -1,14 +1,12 @@
 import os
-import traceback
-from pathlib import Path
-
 import pandas as pd
-from prefect import flow, task
+from prefect import task
 from prefect_gcp import GcpCredentials, GcsBucket
 
-from conf.config import CONFIG_DIR, DATA_DIR, DATASET_EXCEL_LINKS, GCP_BIGQUERY_DESTINATION_TABLE, GCLOUD_PROJECT, GCP_LOCATION
+from conf.config import CONFIG_DIR, DATA_DIR
 from src.blocks.init_prefect_blocks import BLOCK_NAME_BUCKET
-from src.utils import dump_columns_type_from_df, load_json, write_local_to_parquet, get_excel_files_path
+from src.utils import dump_columns_type_from_df, load_json
+from dotenv import load_dotenv
 
 DATASET_COLUMNS_TYPE = CONFIG_DIR.joinpath('dataset_columns_types.json')
 
@@ -80,16 +78,17 @@ def extract_from_gcs_to_local(filename: str) -> pd.DataFrame:
       description="Upload the parquet file data to Google Big query")
 def write_data_google_bq(df: pd.DataFrame) -> None:
     """Write DataFrame to BiqQuery"""
+    load_dotenv()
 
     gcp_credentials_block = GcpCredentials.load("capstone-project-gcs-credentials")
 
     df.to_gbq(
-        destination_table=GCP_BIGQUERY_DESTINATION_TABLE,
-        project_id=GCLOUD_PROJECT,
+        destination_table=os.environ.get("GCP_BIGQUERY_DESTINATION_TABLE"),
+        project_id=os.environ.get("TF_VAR_GCP_PROJECT_ID"),
         credentials=gcp_credentials_block.get_credentials_from_service_account(),
         chunksize=500_000,
         if_exists="append",
-        location=GCP_LOCATION
+        location=os.environ.get("TF_VAR_GCP_REGION")
     )
     print("Successfully uploaded data to BigQuery.")
 

@@ -2,6 +2,11 @@ locals {
   data_lake_bucket = "global-terrorism-data-bucket"
 }
 
+variable "GCP_GCS_BUCKET" {
+  description = "Google Cloud Bucket"
+  type        = string
+}
+
 variable "GCP_CREDS" {
   description = "Credentials for GCP"
   type        = string

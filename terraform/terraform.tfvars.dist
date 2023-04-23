@@ -1,0 +1,3 @@
+GCP_PROJECT_ID="de-capstone-project-23"
+GCP_REGION="europe-west3"
+GCP_BQ_DATASET="global_terrorism_data"
