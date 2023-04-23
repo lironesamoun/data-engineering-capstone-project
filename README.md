@@ -27,8 +27,12 @@ Dashboard
 
 Reproducibility
 [Instructions are clear, it's easy to run the code, and the code works]
-![architecture-captstone-project](https://user-images.githubusercontent.com/8614763/233844475-c1cd6fc8-76f7-4c45-851b-fab24629039d.jpeg)
+![architecture-captstone-project](https://user-images.githubusercontent.com/8614763/233846590-d0669322-9ac9-4092-9588-a5ef1a9d6db7.jpeg)
 
+<img width="686" alt="Exemple Dashboard" src="https://user-images.githubusercontent.com/8614763/233846604-575afffe-083a-41d9-aa77-4bbac33cc0c5.png">
+<img width="657" alt="Table created in Google Big Query" src="https://user-images.githubusercontent.com/8614763/233846616-1133fdee-dab7-4b0f-bb75-d259de2fee68.png">
+
+<img width="1071" alt="DBT Lineage" src="https://user-images.githubusercontent.com/8614763/233846665-ea2e175b-59d5-4f55-98c3-7904bf2a0e60.png">
 
 
 to do
