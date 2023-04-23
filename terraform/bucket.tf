@@ -1,7 +1,7 @@
 # Data Lake Bucket
 # Ref: https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/storage_bucket
 resource "google_storage_bucket" "data-lake-bucket" {
-  name     = local.data_lake_bucket # Concatenating DL bucket & Project name for unique naming
+  name     = var.GCP_GCS_BUCKET # Concatenating DL bucket & Project name for unique naming
   location = var.GCP_REGION
 
   # Optional, but recommended settings:

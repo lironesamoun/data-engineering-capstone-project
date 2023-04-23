@@ -10,10 +10,6 @@ from dotenv import load_dotenv
 load_dotenv()
 
 os.environ.setdefault("GOOGLE_APPLICATION_CREDENTIALS", os.environ.get("TF_VAR_GCP_CREDS"))
-GCLOUD_PROJECT = "de-capstone-project-23"
-GCP_GCS_BUCKET = "global-terrorism-data-bucket"
-GCP_BIGQUERY_DESTINATION_TABLE="globalterrorism_data.full_raw_dataset"
-GCP_LOCATION="europe-west3"
 
 # Directories
 BASE_DIR = Path(__file__).parent.parent.absolute()

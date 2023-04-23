@@ -1,18 +1,13 @@
 import json
 import os
-
+from dotenv import load_dotenv
 from prefect_gcp import GcpCredentials
 from prefect_gcp.cloud_storage import GcsBucket
 from prefect.filesystems import GitHub
 
-from conf.config import GCP_GCS_BUCKET
+load_dotenv()
 
-# This is an alternative to creating GCP blocks in the UI
-# (1) insert your own GCS bucket name
-# (2) insert your own service_account_file path or service_account_info dictionary from the json file
-# IMPORTANT - do not store credentials in a publicly available repository!
-
-bucket_name_GCS = GCP_GCS_BUCKET  # (1) insert your GCS bucket name
+bucket_name_GCS = os.environ.get("TF_VAR_GCP_GCS_BUCKET")
 BASELINE_BLOCK_NAME = "capstone-project-gcs"
 BLOCK_NAME_CREDENTIALS = f"{BASELINE_BLOCK_NAME}-credentials"
 BLOCK_NAME_BUCKET = f"{BASELINE_BLOCK_NAME}-bucket"
@@ -20,7 +15,7 @@ BLOCK_NAME_GITHUB = f"{BASELINE_BLOCK_NAME}-github"
 
 
 def create_credentials_block():
-    with open(os.environ.get("PREFECT_SERVICE_ACCOUNT")) as prefect_service_account_file:
+    with open(os.environ.get("GCP_CREDENTIALS_PREFECT_SERVICE_ACCOUNT")) as prefect_service_account_file:
         prefect_service_account = prefect_service_account_file.read()
 
     credentials_block = GcpCredentials(

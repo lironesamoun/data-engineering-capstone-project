@@ -4,6 +4,7 @@ from google.cloud import storage
 from src.utils import write_local_to_parquet, load_json, dump_columns_type_from_df
 from conf.config import DATASET_EXCEL_LINKS, CONFIG_DIR, DATA_DIR
 import traceback
+from dotenv import load_dotenv
 
 DATASET_COLUMNS_TYPE = CONFIG_DIR.joinpath('dataset_columns_types.json')
 
@@ -62,7 +63,7 @@ def upload_to_gcs_bucket(bucket_name: str, destination_blob_name: str, source_fi
 
 
 def end_to_end_pipeline_from_http_to_gcs(filename_arr_path: list, name_output_dataset):
-    from conf.config import GCP_GCS_BUCKET
+    load_dotenv()
     try:
         # 1. Download excel data from links (github)
         combined_data_df = ingest_data_from_list_files(filename_arr_path)
@@ -75,7 +76,8 @@ def end_to_end_pipeline_from_http_to_gcs(filename_arr_path: list, name_output_da
         dataset_file_name = os.path.basename(dataset_parquet_path)
         write_local_to_parquet(data_df, dataset_parquet_path)
         # 5. Upload to GCS
-        upload_to_gcs_bucket(GCP_GCS_BUCKET, dataset_file_name, dataset_parquet_path)
+        gcp_gcs_bucket = os.environ.get("TF_VAR_GCP_GCS_BUCKET")
+        upload_to_gcs_bucket(gcp_gcs_bucket, dataset_file_name, dataset_parquet_path)
 
     except Exception as ex:
         print("Exception : ", ex)
@@ -84,7 +86,7 @@ def end_to_end_pipeline_from_http_to_gcs(filename_arr_path: list, name_output_da
 
 
 def end_to_end_pipeline_from_local_to_gcs(data_folder: str, name_output_dataset: str):
-    from conf.config import GCP_GCS_BUCKET
+    load_dotenv()
     try:
         # Check before if there is CSV dataset so that we don't download again
         filename_csv = name_output_dataset + '.csv'
@@ -105,7 +107,8 @@ def end_to_end_pipeline_from_local_to_gcs(data_folder: str, name_output_dataset:
         dataset_file_name = os.path.basename(dataset_parquet_path)
         write_local_to_parquet(data_df, dataset_parquet_path)
         # 5. Upload to GCS
-        upload_to_gcs_bucket(GCP_GCS_BUCKET, dataset_file_name, dataset_parquet_path)
+        gcp_gcs_bucket = os.environ.get("TF_VAR_GCP_GCS_BUCKET")
+        upload_to_gcs_bucket(gcp_gcs_bucket, dataset_file_name, dataset_parquet_path)
 
     except Exception as ex:
         print("Exception raised: ", ex)
