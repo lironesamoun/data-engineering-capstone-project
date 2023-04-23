@@ -104,12 +104,10 @@ dashboard.
 ```bash
 git clone https://github.com/lironesamoun/data-engineering-capstone-project.git
 ```
-2. Install all required dependencies into your environment
+2. Create a virtual env and install all required dependencies into your environment
 ```bash
-pip3 install -r requirements.txt
+make install
 ```
-
-## TODO create make for installation (virtual env + installatino requirements)
 
 #### Step 2: Setup of GCP
 1. Create a [Google Cloud Platform (GCP)](https://cloud.google.com/) free account with your Google e-mail
@@ -119,9 +117,9 @@ pip3 install -r requirements.txt
     - Provide a service account name and grant the roles: **Viewer** + **BigQuery Admin** + **Storage Admin** + **Storage Object Admin** + **Compute Storage Admin**
     - Download the Service Account json file
     - Download [SDK](https://cloud.google.com/sdk/docs/install-sdk) for local setup
-    - Set environment variable to point to your downloaded GCP keys:
+    - Set environment variable to point to your downloaded GCP keys in the .env file:
     ```bash
-    export GOOGLE_APPLICATION_CREDENTIALS="<path/to/your/service-account-authkeys>.json"
+    TF_VAR_GCP_CREDS="<path/to/your/service-account-authkeys>.json"
     ```
     ```bash
     # Refresh token/session, and verify authentication
@@ -135,27 +133,16 @@ pip3 install -r requirements.txt
 
 #### Step 3: Creation of a GCP Infrastructure
 1. Install [Terraform](https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli)
-2. Copy files (**main.tf** and **variables.tf**) for the infrastructure creation (Use files created in Zoomcamp course: [Terraform files](https://github.com/DataTalksClub/data-engineering-zoomcamp/tree/main/week_1_basics_n_setup/1_terraform_gcp/terraform))
-3. In the file variables.tf change variable **BQ_DATASET** to: **us_traffic_accidents_data**
-4. Execute the following commands to plan the creation of the GCP infrastructure:
+2. Execute the following commands to plan the creation of the GCP infrastructure:
 ```bash
-# Initialize state file (.tfstate)
-terraform init
-
-# Check changes to new infra plan
-# -var="project=<your-gcp-project-id>"
-
-terraform plan -var="project=dezoomcamp-finalproject"
-```
-
-```bash
-# Create new infra
-# -var="project=<your-gcp-project-id>"
-
-terraform apply -var="project=dezoomcamp-finalproject"
+make init-infrastructure
 ```
 
 It is possible to see in the GCP console that the Infrastructure was correctly created.
+
+At the end of the process, you should see the bucket created and the table in Google Big Query.
+You can change the name of the variable inside the .env file.
+
 
 #### Step 4: Setup orchestration using Prefect
 1. Setup the prefect server so that you can access the UI. Run the following command in a CL terminal:
@@ -166,8 +153,15 @@ make prefect-start
 2. Access the UI in your browser: **http://127.0.0.1:4200/**
 3. For the connection with GCP Buckets it is necessary to init prefect blocks
 
+Fill in the github env variable:
 ```bash
-python3 src/blocks/init_prefect_blocks.py
+GITHUB_REPOSITORY_URL="your repo"
+GITHUB_REPO_ACCESS_TOKEN=""
+ ```
+
+Then:
+```bash
+make prefect-init-blocks
  ```
 
 4. To execute the flow, run the following commands in a different CL terminal than step 1:
@@ -180,14 +174,33 @@ python3 src/flows/parameterized_flow_http_pipeline.py
 2. Clone this repo
 3. In the command line of dbt running the following command:
 ```bash
-dbt run
+dbt run --vars 'is_test_run: false'
 ```
 You should see the following lineage in DBT:
 <img width="1071" alt="DBT Lineage" src="https://user-images.githubusercontent.com/8614763/233846665-ea2e175b-59d5-4f55-98c3-7904bf2a0e60.png">
 
+#### Step 5b: Running the dbt flow on Production
 
-After running all those steps, you should see in Google Big query the following table created (not production since it is run by dbt in production mode)
+Create a production environment on DBT.
+Add the following command:
+
+```bash
+dbt seed
+dbt build --vars 'is_test_run: false'
+dbt test
+```
+
+Execute the flow.
+
+After running all those steps, you should see in Google Big query the following table created
 <img width="657" alt="Table created in Google Big Query" src="https://user-images.githubusercontent.com/8614763/233846616-1133fdee-dab7-4b0f-bb75-d259de2fee68.png">
+
+
+#### (Optional) Uninstall
+```bash
+make destroy-infrastructure
+make uninstall
+```
 
 ## Potential next steps
 
@@ -197,6 +210,8 @@ After running all those steps, you should see in Google Big query the following 
 - Perform deeper data analysis
 - Add pipeline for Machine Learning
 
+
+##### Memento
 prefect agent start -p 'default-agent-pool'
 prefect deployment build -n "Online Parameterized ETL" -p default-agent-pool -q main-queue
 src/flows/parameterized_flow_http_pipeline.py:end_to_end_pipeline_from_http_to_bq
