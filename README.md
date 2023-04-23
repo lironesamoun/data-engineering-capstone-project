@@ -212,7 +212,10 @@ make uninstall
 
 
 ##### Memento
+
+```bash
 prefect agent start -p 'default-agent-pool'
 prefect deployment build -n "Online Parameterized ETL" -p default-agent-pool -q main-queue
 src/flows/parameterized_flow_http_pipeline.py:end_to_end_pipeline_from_http_to_bq
 prefect deployment apply end_to_end_pipeline_from_http_to_bq-deployment.yaml
+```
