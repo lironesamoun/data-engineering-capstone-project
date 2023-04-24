@@ -12,6 +12,14 @@ from src.flows.pipeline_components import ingest_data_from_list_files, load_csv_
                   "Combine the data, save it to csv, convert to parquet and then upload to google cloud bucket",
       log_prints=True)
 def end_to_end_pipeline_from_local_to_bq(data_folder: Path = DATA_DIR, name_output_dataset: str="global_terrorism_db"):
+    """
+     End to end pipeline
+    load files given a folder that contain data > convert to csv > save to parquet format > upload to google cloud bucket
+    > upload to google big query
+    :param data_folder:
+    :param name_output_dataset:
+    :return:
+    """
     try:
         #0. Check beforehand if there is CSV dataset so that we don't download again
         filename_csv = name_output_dataset + '.csv'

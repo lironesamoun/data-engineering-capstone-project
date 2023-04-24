@@ -12,6 +12,14 @@ from src.flows.pipeline_components import ingest_data_from_list_files, load_csv_
       log_prints=True)
 def end_to_end_pipeline_from_http_to_bq(filename_arr_path: list = DATASET_EXCEL_LINKS,
                                         name_output_dataset="global_terrorism_db"):
+    """
+    End to end pipeline
+    Download files given an array of links > convert to csv > save to parquet format > upload to google cloud bucket
+    > upload to google big query
+    :param filename_arr_path:
+    :param name_output_dataset:
+    :return:
+    """
     try:
         # 0. Check beforehand if there is CSV dataset so that we don't download again
         filename_csv = name_output_dataset + '.csv'
